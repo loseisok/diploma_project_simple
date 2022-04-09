@@ -2,24 +2,18 @@ import wmi
 from playsound import playsound
 import time
 
-w = wmi.WMI(namespace="root\OpenHardwareMonitor")
-for _ in range(1):
-    temperature_infos = w.Sensor()
-    for sensor in temperature_infos:
-        if sensor.SensorType == "Temperature":
-            if sensor.Name in ["CPU Package", "GPU Core"]:
-                print(sensor.Name)
-            # print(sensor.Min)
-            # print(sensor.Max)
-                print(sensor.Value)
-            # print(sensor.SensorType)
-                if sensor.Value >= 50:
-                    playsound('D:\\Python\\diploma\\beep.wav')
-    # time.sleep(1)
+def __main__():
+    w = wmi.WMI(namespace="root\OpenHardwareMonitor")
 
-    # load = w.Sensor()
-    # for loade in load:
-    #     if loade.SensorType == "Fan":
-    #         print(loade.Name)
-    #         print(loade.Value)
+    for _ in range(60):
+        temperature_infos = w.Sensor()
 
+        for sensor in temperature_infos:
+            if sensor.SensorType == "Temperature" and sensor.Name in ["CPU Package", "GPU Core"]:
+                    print(sensor.Name, sensor.Value)
+
+                    if sensor.Value >= 80:
+                        playsound('D:\\Python\\diploma_project_simple\\sounds\\beep.wav')
+        time.sleep(5)           
+if __name__ == "__main__":
+    __main__()
